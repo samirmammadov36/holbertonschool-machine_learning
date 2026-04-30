@@ -6,10 +6,11 @@ def determinant(matrix):
     """Calculates the determinant of a matrix"""
 
     # Type check
-    if not isinstance(matrix, list) or not all(isinstance(row, list) for row in matrix):
+    if not isinstance(matrix, list) or not all(
+            isinstance(row, list) for row in matrix):
         raise TypeError("matrix must be a list of lists")
 
-    # Empty matrix check
+    # Empty list check
     if matrix == []:
         raise TypeError("matrix must be a list of lists")
 
@@ -22,26 +23,24 @@ def determinant(matrix):
     if not all(len(row) == n for row in matrix):
         raise ValueError("matrix must be a square matrix")
 
-    # 1x1
+    # 1x1 matrix
     if n == 1:
         return matrix[0][0]
 
-    # 2x2 (shortcut)
+    # 2x2 matrix
     if n == 2:
-        return matrix[0][0]*matrix[1][1] - matrix[0][1]*matrix[1][0]
+        return (matrix[0][0] * matrix[1][1] -
+                matrix[0][1] * matrix[1][0])
 
-    # Recursive Laplace expansion
+    # Recursive calculation
     det = 0
     for col in range(n):
-        # Submatrix (minor)
-        sub = [
-            row[:col] + row[col+1:]
+        submatrix = [
+            row[:col] + row[col + 1:]
             for row in matrix[1:]
         ]
 
-        # Cofactor sign
         sign = (-1) ** col
-
-        det += sign * matrix[0][col] * determinant(sub)
+        det += sign * matrix[0][col] * determinant(submatrix)
 
     return det
