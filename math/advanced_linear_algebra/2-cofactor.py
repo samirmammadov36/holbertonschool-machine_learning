@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Minor matrix"""
+"""Cofactor matrix"""
 
 
 def determinant(matrix):
@@ -30,7 +30,30 @@ def determinant(matrix):
 
 
 def minor(matrix):
-    """Calculates the minor matrix of a matrix"""
+    """Calculates minor matrix"""
+
+    n = len(matrix)
+
+    if n == 1:
+        return [[1]]
+
+    minor_matrix = []
+
+    for i in range(n):
+        row_minor = []
+        for j in range(n):
+            submatrix = [
+                matrix[r][:j] + matrix[r][j + 1:]
+                for r in range(n) if r != i
+            ]
+            row_minor.append(determinant(submatrix))
+        minor_matrix.append(row_minor)
+
+    return minor_matrix
+
+
+def cofactor(matrix):
+    """Calculates the cofactor matrix of a matrix"""
 
     # Type check
     if not isinstance(matrix, list) or not all(
@@ -50,17 +73,17 @@ def minor(matrix):
     if n == 1:
         return [[1]]
 
-    # Build minor matrix
-    minor_matrix = []
+    # Get minor matrix
+    minor_matrix = minor(matrix)
+
+    # Apply sign pattern
+    cofactor_matrix = []
 
     for i in range(n):
-        row_minor = []
+        row = []
         for j in range(n):
-            submatrix = [
-                matrix[r][:j] + matrix[r][j + 1:]
-                for r in range(n) if r != i
-            ]
-            row_minor.append(determinant(submatrix))
-        minor_matrix.append(row_minor)
+            sign = (-1) ** (i + j)
+            row.append(sign * minor_matrix[i][j])
+        cofactor_matrix.append(row)
 
-    return minor_matrix
+    return cofactor_matrix
