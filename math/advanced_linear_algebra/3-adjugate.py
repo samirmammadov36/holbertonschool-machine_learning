@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Cofactor matrix"""
+"""Adjugate matrix"""
 
 
 def determinant(matrix):
@@ -53,7 +53,28 @@ def minor(matrix):
 
 
 def cofactor(matrix):
-    """Calculates the cofactor matrix of a matrix"""
+    """Calculates cofactor matrix"""
+
+    n = len(matrix)
+
+    if n == 1:
+        return [[1]]
+
+    minor_matrix = minor(matrix)
+    cofactor_matrix = []
+
+    for i in range(n):
+        row = []
+        for j in range(n):
+            sign = (-1) ** (i + j)
+            row.append(sign * minor_matrix[i][j])
+        cofactor_matrix.append(row)
+
+    return cofactor_matrix
+
+
+def adjugate(matrix):
+    """Calculates the adjugate matrix of a matrix"""
 
     # Type check
     if not isinstance(matrix, list) or not all(
@@ -73,17 +94,15 @@ def cofactor(matrix):
     if n == 1:
         return [[1]]
 
-    # Get minor matrix
-    minor_matrix = minor(matrix)
+    # Cofactor matrix
+    cof = cofactor(matrix)
 
-    # Apply sign pattern
-    cofactor_matrix = []
-
+    # Transpose (adjugate)
+    adj = []
     for i in range(n):
         row = []
         for j in range(n):
-            sign = (-1) ** (i + j)
-            row.append(sign * minor_matrix[i][j])
-        cofactor_matrix.append(row)
+            row.append(cof[j][i])
+        adj.append(row)
 
-    return cofactor_matrix
+    return adj
