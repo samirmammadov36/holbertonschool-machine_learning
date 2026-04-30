@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Adjugate matrix"""
+"""Inverse matrix"""
 
 
 def determinant(matrix):
@@ -74,7 +74,27 @@ def cofactor(matrix):
 
 
 def adjugate(matrix):
-    """Calculates the adjugate matrix of a matrix"""
+    """Calculates adjugate matrix"""
+
+    n = len(matrix)
+
+    if n == 1:
+        return [[1]]
+
+    cof = cofactor(matrix)
+
+    adj = []
+    for i in range(n):
+        row = []
+        for j in range(n):
+            row.append(cof[j][i])
+        adj.append(row)
+
+    return adj
+
+
+def inverse(matrix):
+    """Calculates the inverse of a matrix"""
 
     # Type check
     if not isinstance(matrix, list) or not all(
@@ -90,19 +110,21 @@ def adjugate(matrix):
     if not all(len(row) == n for row in matrix):
         raise ValueError("matrix must be a non-empty square matrix")
 
-    # 1x1 case
-    if n == 1:
-        return [[1]]
+    # Determinant
+    det = determinant(matrix)
 
-    # Cofactor matrix
-    cof = cofactor(matrix)
+    if det == 0:
+        return None
 
-    # Transpose (adjugate)
-    adj = []
+    # Adjugate
+    adj = adjugate(matrix)
+
+    # Divide by determinant
+    inv = []
     for i in range(n):
         row = []
         for j in range(n):
-            row.append(cof[j][i])
-        adj.append(row)
+            row.append(adj[i][j] / det)
+        inv.append(row)
 
-    return adj
+    return inv
