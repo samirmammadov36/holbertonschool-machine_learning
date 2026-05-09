@@ -8,6 +8,16 @@ class Normal:
     def __init__(self, data=None, mean=0., stddev=1.):
         """
         Initialize the normal distribution.
+
+        Args:
+            data (list): data used to estimate distribution
+            mean (float): mean of the distribution
+            stddev (float): standard deviation
+
+        Raises:
+            TypeError: if data is not a list
+            ValueError: if data has fewer than 2 values
+            ValueError: if stddev is not positive
         """
 
         if data is None:
@@ -44,6 +54,12 @@ class Normal:
     def z_score(self, x):
         """
         Calculates the z-score of x.
+
+        Args:
+            x (float): x-value
+
+        Returns:
+            float: z-score
         """
 
         return (x - self.mean) / self.stddev
@@ -51,6 +67,36 @@ class Normal:
     def x_value(self, z):
         """
         Calculates the x-value of a z-score.
+
+        Args:
+            z (float): z-score
+
+        Returns:
+            float: x-value
         """
 
         return (z * self.stddev) + self.mean
+
+    def pdf(self, x):
+        """
+        Calculates the PDF for a given x-value.
+
+        Args:
+            x (float): x-value
+
+        Returns:
+            float: PDF value
+        """
+
+        pi = 3.1415926536
+        e = 2.7182818285
+
+        exponent = -0.5 * (
+            ((x - self.mean) / self.stddev) ** 2
+        )
+
+        denominator = (
+            self.stddev * ((2 * pi) ** 0.5)
+        )
+
+        return (1 / denominator) * (e ** exponent)
