@@ -8,16 +8,6 @@ class Normal:
     def __init__(self, data=None, mean=0., stddev=1.):
         """
         Initialize the normal distribution.
-
-        Args:
-            data (list): data used to estimate distribution
-            mean (float): mean of the distribution
-            stddev (float): standard deviation
-
-        Raises:
-            TypeError: if data is not a list
-            ValueError: if data has fewer than 2 values
-            ValueError: if stddev is not positive
         """
 
         if data is None:
@@ -50,3 +40,17 @@ class Normal:
             variance /= len(data)
 
             self.stddev = variance ** 0.5
+
+    def z_score(self, x):
+        """
+        Calculates the z-score of x.
+        """
+
+        return (x - self.mean) / self.stddev
+
+    def x_value(self, z):
+        """
+        Calculates the x-value of a z-score.
+        """
+
+        return (z * self.stddev) + self.mean
