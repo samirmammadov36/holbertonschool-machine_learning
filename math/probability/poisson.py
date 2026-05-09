@@ -5,6 +5,8 @@
 class Poisson:
     """Represents a Poisson distribution."""
 
+    e = 2.7182818285
+
     def __init__(self, data=None, lambtha=1.):
         """
         Initialize the Poisson distribution.
@@ -33,3 +35,26 @@ class Poisson:
                 raise ValueError("data must contain multiple values")
 
             self.lambtha = float(sum(data) / len(data))
+
+    def pmf(self, k):
+        """
+        Calculates the PMF for a given number of successes.
+
+        Args:
+            k (int): number of successes
+
+        Returns:
+            float: PMF value for k
+        """
+
+        k = int(k)
+
+        if k < 0:
+            return 0
+
+        factorial = 1
+        for i in range(1, k + 1):
+            factorial *= i
+
+        return ((self.e ** (-self.lambtha)) *
+                (self.lambtha ** k)) / factorial
