@@ -56,12 +56,6 @@ class Binomial:
     def pmf(self, k):
         """
         Calculates the PMF for a given number of successes.
-
-        Args:
-            k (int): number of successes
-
-        Returns:
-            float: PMF value
         """
 
         k = int(k)
@@ -81,8 +75,29 @@ class Binomial:
         for i in range(1, (self.n - k) + 1):
             nk_fact *= i
 
-        combination = n_fact / (k_fact * nk_fact)
+        combination = (
+            n_fact / (k_fact * nk_fact)
+        )
 
-        return (combination *
-                (self.p ** k) *
-                ((1 - self.p) ** (self.n - k)))
+        return (
+            combination *
+            (self.p ** k) *
+            ((1 - self.p) ** (self.n - k))
+        )
+
+    def cdf(self, k):
+        """
+        Calculates the CDF for a given number of successes.
+        """
+
+        k = int(k)
+
+        if k < 0:
+            return 0
+
+        cdf = 0
+
+        for i in range(k + 1):
+            cdf += self.pmf(i)
+
+        return cdf
