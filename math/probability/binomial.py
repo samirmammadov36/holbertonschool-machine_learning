@@ -8,17 +8,6 @@ class Binomial:
     def __init__(self, data=None, n=1, p=0.5):
         """
         Initialize the binomial distribution.
-
-        Args:
-            data (list): data used to estimate distribution
-            n (int): number of Bernoulli trials
-            p (float): probability of success
-
-        Raises:
-            TypeError: if data is not a list
-            ValueError: if data has fewer than 2 values
-            ValueError: if n is not positive
-            ValueError: if p is invalid
         """
 
         if data is None:
@@ -63,3 +52,37 @@ class Binomial:
 
             self.n = int(n)
             self.p = float(p)
+
+    def pmf(self, k):
+        """
+        Calculates the PMF for a given number of successes.
+
+        Args:
+            k (int): number of successes
+
+        Returns:
+            float: PMF value
+        """
+
+        k = int(k)
+
+        if k < 0 or k > self.n:
+            return 0
+
+        n_fact = 1
+        for i in range(1, self.n + 1):
+            n_fact *= i
+
+        k_fact = 1
+        for i in range(1, k + 1):
+            k_fact *= i
+
+        nk_fact = 1
+        for i in range(1, (self.n - k) + 1):
+            nk_fact *= i
+
+        combination = n_fact / (k_fact * nk_fact)
+
+        return (combination *
+                (self.p ** k) *
+                ((1 - self.p) ** (self.n - k)))
