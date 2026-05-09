@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 def cdf(self, k):
     """
     Calculates the CDF for a given number of successes.
