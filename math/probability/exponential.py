@@ -8,15 +8,6 @@ class Exponential:
     def __init__(self, data=None, lambtha=1.):
         """
         Initialize the exponential distribution.
-
-        Args:
-            data (list): data used to estimate lambtha
-            lambtha (float): expected number of occurrences
-
-        Raises:
-            TypeError: if data is not a list
-            ValueError: if data has fewer than 2 values
-            ValueError: if lambtha is not positive
         """
 
         if data is None:
@@ -41,3 +32,22 @@ class Exponential:
             mean = sum(data) / len(data)
 
             self.lambtha = float(1 / mean)
+
+    def pdf(self, x):
+        """
+        Calculates the PDF for a given time period.
+
+        Args:
+            x (float): time period
+
+        Returns:
+            float: PDF value for x
+        """
+
+        if x < 0:
+            return 0
+
+        e = 2.7182818285
+
+        return (self.lambtha *
+                (e ** (-self.lambtha * x)))
