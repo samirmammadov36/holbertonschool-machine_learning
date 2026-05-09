@@ -5,6 +5,9 @@
 class Normal:
     """Represents a normal distribution."""
 
+    pi = 3.1415926536
+    e = 2.7182818285
+
     def __init__(self, data=None, mean=0., stddev=1.):
         """
         Initialize the normal distribution.
@@ -88,15 +91,38 @@ class Normal:
             float: PDF value
         """
 
-        pi = 3.1415926536
-        e = 2.7182818285
-
         exponent = -0.5 * (
             ((x - self.mean) / self.stddev) ** 2
         )
 
         denominator = (
-            self.stddev * ((2 * pi) ** 0.5)
+            self.stddev *
+            ((2 * self.pi) ** 0.5)
         )
 
-        return (1 / denominator) * (e ** exponent)
+        return (1 / denominator) * (
+            self.e ** exponent
+        )
+
+    def cdf(self, x):
+        """
+        Calculates the CDF for a given x-value.
+
+        Args:
+            x (float): x-value
+
+        Returns:
+            float: CDF value
+        """
+
+        z = ((x - self.mean) /
+             (self.stddev * (2 ** 0.5)))
+
+        erf = (2 / (self.pi ** 0.5)) * (
+            z - ((z ** 3) / 3)
+            + ((z ** 5) / 10)
+            - ((z ** 7) / 42)
+            + ((z ** 9) / 216)
+        )
+
+        return 0.5 * (1 + erf)
