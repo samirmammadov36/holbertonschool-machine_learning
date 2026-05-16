@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Calculates the marginal probability for Bayesian probability."""
+"""Calculates the posterior probability for Bayesian probability."""
 
 import numpy as np
 
 
-def marginal(x, n, P, Pr):
+def posterior(x, n, P, Pr):
     """
-    Calculates the marginal probability of obtaining the data.
+    Calculates the posterior probability for each hypothesis in P.
 
     Args:
         x: number of patients with severe side effects
@@ -15,7 +15,7 @@ def marginal(x, n, P, Pr):
         Pr: prior probabilities
 
     Returns:
-        float: marginal probability
+        numpy.ndarray: posterior probabilities
     """
     if not isinstance(n, int) or n <= 0:
         raise ValueError("n must be a positive integer")
@@ -50,5 +50,6 @@ def marginal(x, n, P, Pr):
 
     likelihood = combination * (P ** x) * ((1 - P) ** (n - x))
     intersection = likelihood * Pr
+    marginal = np.sum(intersection)
 
-    return np.sum(intersection)
+    return intersection / marginal
