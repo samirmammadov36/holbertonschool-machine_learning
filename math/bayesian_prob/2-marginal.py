@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
-"""Calculates the intersection for Bayesian probability."""
+"""Calculates the marginal probability for Bayesian probability."""
 
 import numpy as np
 
 
-def intersection(x, n, P, Pr):
+def marginal(x, n, P, Pr):
     """
-    Calculates the intersection of obtaining the data
-    with various hypothetical probabilities.
+    Calculates the marginal probability of obtaining the data.
 
     Args:
         x: number of patients with severe side effects
@@ -16,7 +15,7 @@ def intersection(x, n, P, Pr):
         Pr: prior probabilities
 
     Returns:
-        numpy.ndarray: intersection probabilities
+        float: marginal probability
     """
     if not isinstance(n, int) or n <= 0:
         raise ValueError("n must be a positive integer")
@@ -50,5 +49,6 @@ def intersection(x, n, P, Pr):
     combination = factorial(n) / (factorial(x) * factorial(n - x))
 
     likelihood = combination * (P ** x) * ((1 - P) ** (n - x))
+    intersection = likelihood * Pr
 
-    return likelihood * Pr
+    return np.sum(intersection)
