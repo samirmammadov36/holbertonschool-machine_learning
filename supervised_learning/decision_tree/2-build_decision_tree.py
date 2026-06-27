@@ -5,7 +5,7 @@ import numpy as np
 
 
 class Node:
-    """Represent an internal node of a decision tree."""
+    """Represent an internal node in a decision tree."""
 
     def __init__(
         self,
@@ -48,8 +48,8 @@ class Node:
         return 1 + left_count + right_count
 
     def left_child_add_prefix(self, text):
-        """Add the left-child tree-printing prefix."""
-        lines = text.split("\n")
+        """Add the printing prefix used for a left child."""
+        lines = text.rstrip("\n").split("\n")
         new_text = "    +--" + lines[0] + "\n"
 
         for line in lines[1:]:
@@ -58,8 +58,8 @@ class Node:
         return new_text
 
     def right_child_add_prefix(self, text):
-        """Add the right-child tree-printing prefix."""
-        lines = text.split("\n")
+        """Add the printing prefix used for a right child."""
+        lines = text.rstrip("\n").split("\n")
         new_text = "    +--" + lines[0] + "\n"
 
         for line in lines[1:]:
@@ -68,7 +68,7 @@ class Node:
         return new_text
 
     def __str__(self):
-        """Return the string representation of the node and its children."""
+        """Return a printable representation of the node and children."""
         if self.is_root:
             node_type = "root"
         else:
@@ -82,11 +82,11 @@ class Node:
         text += self.left_child_add_prefix(str(self.left_child))
         text += self.right_child_add_prefix(str(self.right_child))
 
-        return text.rstrip()
+        return text
 
 
 class Leaf(Node):
-    """Represent a leaf of a decision tree."""
+    """Represent a leaf in a decision tree."""
 
     def __init__(self, value, depth=None):
         """Initialize a decision tree leaf."""
@@ -104,7 +104,7 @@ class Leaf(Node):
         return 1
 
     def __str__(self):
-        """Return the string representation of the leaf."""
+        """Return a printable representation of the leaf."""
         return f"-> leaf [value={self.value}]"
 
 
@@ -139,11 +139,11 @@ class Decision_Tree:
         return self.root.max_depth_below()
 
     def count_nodes(self, only_leaves=False):
-        """Count nodes or leaves in the decision tree."""
+        """Count all nodes or only leaves in the decision tree."""
         return self.root.count_nodes_below(
             only_leaves=only_leaves
         )
 
     def __str__(self):
-        """Return the string representation of the decision tree."""
+        """Return a printable representation of the decision tree."""
         return self.root.__str__()
