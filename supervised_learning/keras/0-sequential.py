@@ -42,3 +42,4 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
             model.add(K.layers.Dropout(rate=1 - keep_prob))
 
     return model
+
